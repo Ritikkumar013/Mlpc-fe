@@ -1,22 +1,33 @@
 {
+  "cli": {
+    "version": ">= 16.20.1",
+    "appVersionSource": "remote"
+  },
   "build": {
     "development": {
-      "node": "18.x.x",
+      "developmentClient": true,
+      "distribution": "internal",
+      "node": "18",
       "npm": {
         "args": ["--legacy-peer-deps"]
       }
     },
     "preview": {
-      "node": "18.x.x",
+      "distribution": "internal",
+      "node": "18",
       "npm": {
         "args": ["--legacy-peer-deps"]
       }
     },
     "production": {
-      "node": "18.x.x",
+      "autoIncrement": true,
+      "node": "18",
       "npm": {
         "args": ["--legacy-peer-deps"]
       }
     }
+  },
+  "submit": {
+    "production": {}
   }
 }
