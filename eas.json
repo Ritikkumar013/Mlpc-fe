@@ -16,6 +16,13 @@
     "production": {
       "autoIncrement": true,
       "node": "18.17.1"
+    },
+    "apk": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "node": "18.17.1"
     }
   },
   "submit": {
