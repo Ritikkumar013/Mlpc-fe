@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ritik2227.mlpc",
+      "bundleIdentifier": "com.ritik13.mlpc",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ritik2227.mlpc"
+      "package": "com.ritik13.mlpc"
     },
     "web": {
       "bundler": "metro",
@@ -43,9 +43,11 @@
       "typedRoutes": true
     },
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "7b83d8a9-3345-4e59-93b8-e30fe0c4603e"
+        "projectId": "2f362a07-c855-4f7a-99f0-c1c14cb4a30b"
       }
-    }
+    },
+    "owner": "ritik13"
   }
 }
