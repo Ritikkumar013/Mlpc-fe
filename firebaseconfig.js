@@ -1,9 +1,7 @@
-// // firebaseconfig.js
+
 // import { initializeApp } from "firebase/app";
 // import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore";  // Import Firestore
-// // import { getAnalytics } from "firebase/analytics";
-
+// import { getFirestore } from "firebase/firestore";
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyDLcOeC85cNvGWif-74A_zj3GPX73MYOao",
@@ -16,14 +14,19 @@
 // };
 
 // // Initialize Firebase
-// export const app = initializeApp(firebaseConfig);
-// export const firebaseAuth = getAuth(app);  // Initialize Auth
+// const app = initializeApp(firebaseConfig);
 
-// export const db = getFirestore(app);  // Initialize Firestore
+// // Initialize Auth first, then export
+// const auth = getAuth(app);
+// const db = getFirestore(app);
+
+// export { app, auth as firebaseAuth, db };
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDLcOeC85cNvGWif-74A_zj3GPX73MYOao",
@@ -32,14 +35,25 @@ const firebaseConfig = {
   storageBucket: "mlpc-d24cd.firebasestorage.app",
   messagingSenderId: "1066822821873",
   appId: "1:1066822821873:web:182be2f3dab0be40a08650",
-  measurementId: "G-TSTX00J941"
+  measurementId: "G-TSTX00J941",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Auth first, then export
-const auth = getAuth(app);
+// Auth with persistence
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+// Firestore
 const db = getFirestore(app);
 
-export { app, auth as firebaseAuth, db };
+// Analytics (optional)
+let analytics;
+if (typeof window !== "undefined") {
+  isSupported().then((supported) => {
+    if (supported) analytics = getAnalytics(app);
+  });
+}
+
+export { app, auth as firebaseAuth, db, analytics };
