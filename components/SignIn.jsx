@@ -5,9 +5,7 @@
 // import { firebaseAuth } from "@/firebaseconfig";
 // import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 // import Toast from 'react-native-toast-message';
-// import { fetchWithTimeout } from '../utils/api';
-
-
+// import * as Keychain from 'react-native-keychain';
 
 // const SignIn = () => {
 //   const [email, setEmail] = useState("");
@@ -21,59 +19,83 @@
 //     setIsPasswordVisible(!isPasswordVisible);
 //   };
 
-// const handleSignIn = async () => {
-//   if (loading) return;
-//   setLoading(true);
+//   const handleSignIn = async () => {
+//     if (loading) return;
+//     setLoading(true);
 
-//   try {
-//     // Input validation
-//     if (!email?.trim() || !password?.trim()) {
-//       Toast.show({
-//         type: 'error',
-//         text1: 'Error',
-//         text2: 'Please fill in all fields'
-//       });
-//       return;
-//     }
-
-//     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-//     const user = userCredential.user;
-
-//     // Refresh the user state to get updated emailVerified status
-//     await user.reload();
-
-//     if (!user.emailVerified) {
-//       Toast.show({
-//         type: 'error',
-//         text1: 'Error',
-//         text2: 'Please verify your email before signing in'
-//       });
-//       await signOut(auth);
-//       return;
-//     }
-
-//     Toast.show({
-//       type: 'success',
-//       text1: 'Success',
-//       text2: 'Successfully signed in'
-//     });
-//     navigation.navigate('HomeScreen');
-
-//   } catch (error) {
-//     Toast.show({
-//       type: 'error',
-//       text1: 'Sign In Failed',
-//       text2: error.message || 'Authentication failed'
-//     });
 //     try {
-//       await signOut(auth);
-//     } catch (signOutError) {
-//       // Optional: Handle sign out error
+//       if (!email?.trim() || !password?.trim()) {
+//         Toast.show({
+//           type: 'error',
+//           text1: 'Error',
+//           text2: 'Please fill in all fields'
+//         });
+//         setLoading(false);
+//         return;
+//       }
+
+//       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+//       const user = userCredential.user;
+//       await user.reload();
+
+//       if (!user.emailVerified) {
+//         Toast.show({
+//           type: 'error',
+//           text1: 'Error',
+//           text2: 'Please verify your email before signing in'
+//         });
+//         await signOut(auth);
+//         setLoading(false);
+//         return;
+//       }
+
+//       const idToken = await user.getIdToken();
+
+//       // Use fetch for backend token exchange
+//       const response = await fetch("https://mlpc-backend.onrender.com/auth/login", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ idToken }),
+//       });
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.error || 'Login failed');
+//       }
+
+//       const data = await response.json();
+//       const sessionToken = data.token;
+
+//       if (sessionToken) {
+//         await Keychain.setGenericPassword('session', sessionToken);
+//       }
+
+//       Toast.show({
+//         type: 'success',
+//         text1: 'Success',
+//         text2: 'Successfully signed in'
+//       });
+
+//       navigation.navigate('HomeScreen');
+
+//     } catch (error) {
+//       Toast.show({
+//         type: 'error',
+//         text1: 'Sign In Failed',
+//         text2: error.message || 'Authentication failed'
+//       });
+//       try {
+//         await signOut(auth);
+//         await Keychain.resetGenericPassword();
+//       } catch {
+//         // Optional error handling for sign-out/reset failure
+//       }
+//     } finally {
+//       setLoading(false);
 //     }
-//   } finally {
-//     setLoading(false);
-//   }
-// };
+//   };
 
 //   return (
 //     <View style={styles.container}>
@@ -84,12 +106,11 @@
 //         </Text>
 //       </View>
 
-//       {/* Input fields */}
 //       <Input
 //         style={styles.input}
 //         placeholder="Enter your email"
 //         value={email}
-//         onChangeText={(text) => setEmail(text)}
+//         onChangeText={setEmail}
 //         leftIcon={{ type: "font-awesome", name: "envelope", size: 18, color: "white" }}
 //         disabled={loading}
 //       />
@@ -98,7 +119,7 @@
 //         style={styles.input}
 //         placeholder="Enter your password"
 //         value={password}
-//         onChangeText={(text) => setPassword(text)}
+//         onChangeText={setPassword}
 //         secureTextEntry={!isPasswordVisible}
 //         leftIcon={{ type: "font-awesome", name: "lock", color: "white" }}
 //         disabled={loading}
@@ -109,19 +130,19 @@
 //         }
 //       />
 
-//       {/* Sign In Button */}
 //       <Button
 //         title="Login"
 //         buttonStyle={[
 //           styles.button,
-//           loading && { opacity: 0.7 } // Visual feedback for loading state
+//           loading && { opacity: 0.7 }
 //         ]}
 //         titleStyle={styles.buttonText}
 //         onPress={handleSignIn}
 //         loading={loading}
 //         disabled={loading}
-//         loadingProps={{ color: 'black' }} // Match loading spinner color with text
+//         loadingProps={{ color: 'black' }}
 //       />
+
 //       <Text style={{ color: "white", fontSize: 16, fontWeight: "500", alignSelf: "center", marginTop: 110 }}>
 //         or continue with
 //       </Text>
@@ -157,7 +178,6 @@
 // });
 
 // export default SignIn;
-
 
 
 import React, { useState } from "react";
@@ -305,19 +325,19 @@ const SignIn = () => {
         loadingProps={{ color: 'black' }}
       />
 
-      <Text style={{ color: "white", fontSize: 16, fontWeight: "500", alignSelf: "center", marginTop: 110 }}>
+      {/* <Text style={{ color: "white", fontSize: 16, fontWeight: "500", alignSelf: "center", marginTop: 110 }}>
         or continue with
-      </Text>
+      </Text> */}
 
-      <TouchableOpacity style={styles.containerGoogle}>
+      {/* <TouchableOpacity style={styles.containerGoogle}>
         <Image source={require("../assets/images/google.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
         <Text style={{ fontSize: 16, alignSelf: "center", fontWeight: "700" }}>Sign in with Google</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-      <TouchableOpacity style={styles.containerFb}>
+      {/* <TouchableOpacity style={styles.containerFb}>
         <Image source={require("../assets/images/facebook.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
         <Text style={{ fontSize: 16, alignSelf: "center", color: "white", fontWeight: "700" }}>Sign in with Facebook</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View style={{ alignItems: "center", marginVertical: 20, flexDirection: "row", justifyContent: "center" }}>
         <Text style={{ fontSize: 16, color: "white" }}>Forgot password? </Text>

@@ -4,7 +4,7 @@
     "slug": "mlpc",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo2.png",
     "scheme": "myapp",
     "entryPoint": "node_modules/expo-router/build/entry.js",
     "userInterfaceStyle": "automatic",
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/mlpc.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.ritik13.mlpc"
