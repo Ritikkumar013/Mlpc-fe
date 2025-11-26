@@ -19,7 +19,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/mlpc.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0b1032"
       },
       "package": "com.ritik13.mlpc"
     },
