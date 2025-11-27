@@ -17,9 +17,9 @@
       }
     },
     "android": {
-      "icon": "./assets/images/mlpc-icon.png",
+      "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/mlpc-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#0b1032"
       },
       "package": "com.ritik13.mlpc"
