@@ -15,7 +15,10 @@
     },
     "production": {
       "autoIncrement": true,
-      "node": "18.17.1"
+      "node": "18.17.1",
+      "android": {
+        "buildType": "app-bundle"
+      }
     },
     "apk": {
       "distribution": "internal",
