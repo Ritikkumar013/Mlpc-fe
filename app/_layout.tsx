@@ -133,6 +133,9 @@ import { Stack, useRouter, usePathname, useLocalSearchParams } from 'expo-router
 import Toast from 'react-native-toast-message';
 import CustomHeader from "../components/CustomHeader";
 import Sidebar from '../components/Sidebar';
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 const { width } = Dimensions.get('window');
 
@@ -188,6 +191,12 @@ export default function RootLayout() {
       router.back();
     }
   };
+
+useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hideAsync(); // hide default native splash
+    }, 100); 
+  }, []);
 
   const shouldShowHeader = !['/SplashScreen', '/Signinsignup', '/'].includes(pathname);
   const shouldShowBackButton = pathname !== '/HomeScreen' && pathname !== '/';
