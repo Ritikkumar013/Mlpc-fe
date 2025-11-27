@@ -4,7 +4,6 @@
     "slug": "mlpc",
     "version": "1.0.0",
     "orientation": "portrait",
-
     "icon": "./assets/images/app-icon.png",
 
     "scheme": "myapp",
@@ -24,7 +23,7 @@
       "icon": "./assets/images/app-icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app-icon.png",
-        "backgroundColor": "#0b1032"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.ritik13.mlpc"
     },
@@ -44,13 +43,7 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-web-browser",
-      [
-        "expo-splash-screen",
-        {
-          "preventAutoHide": true
-        }
-      ]
+      "expo-web-browser"
     ],
 
     "experiments": {
@@ -63,7 +56,6 @@
         "projectId": "2f362a07-c855-4f7a-99f0-c1c14cb4a30b"
       }
     },
-
     "owner": "ritik13"
   }
 }
