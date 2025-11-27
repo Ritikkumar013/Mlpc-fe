@@ -4,11 +4,13 @@
     "slug": "mlpc",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo2.png",
+    "icon": "./assets/images/app-icon.png",
+
     "scheme": "myapp",
     "entryPoint": "node_modules/expo-router/build/entry.js",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ritik13.mlpc",
@@ -16,36 +18,38 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
+
     "android": {
-      "icon": "./assets/images/icon.png",
+      "icon": "./assets/images/app-icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/app-icon.png",
         "backgroundColor": "#0b1032"
       },
       "package": "com.ritik13.mlpc"
     },
+
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/mlpc.png"
+      "favicon": "./assets/images/app-icon.png"
     },
+
+    "splash": {
+      "image": "./assets/images/app-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/logo2.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
       "expo-font",
       "expo-web-browser"
     ],
+
     "experiments": {
       "typedRoutes": true
     },
+
     "extra": {
       "router": {},
       "eas": {
